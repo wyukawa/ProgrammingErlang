@@ -1,5 +1,5 @@
 -module(try_test).
--export([demo1/0, demo2/0]).
+-export([demo1/0, demo2/0, demo3/0]).
 
 demo1() ->
   [catcher(I) || I <- [1,2,3,4,5]].
@@ -21,3 +21,10 @@ generate_exception(5) -> erlang:error(a).
 
 demo2() ->
   [{I, (catch generate_exception(I))} || I <- [1,2,3,4,5]].
+
+demo3() ->
+  try generate_exception(5)
+  catch
+    error:X ->
+      {X, erlang:get_stacktrace()}
+  end.
