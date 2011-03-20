@@ -1,5 +1,5 @@
 -module(lib_misc).
--export([sum/1, sum/2, for/3, qsort/1, pythag/1, perms/1, odds_and_evens/1, odds_and_evens_acc/1]).
+-export([sum/1, sum/2, for/3, qsort/1, pythag/1, perms/1, odds_and_evens/1, odds_and_evens_acc/1, sqrt/1]).
 
 sum(L) -> sum(L, 0).
 
@@ -41,3 +41,8 @@ odds_and_evens_acc([H|T], Odds, Evens) ->
   end;
 odds_and_evens_acc([], Odds, Evens) ->
   {Odds, Evens}.
+
+sqrt(X) when X < 0 ->
+  erlang:error({squareRootNegativeArgument, X});
+sqrt(X) ->
+  sqrt(X).
