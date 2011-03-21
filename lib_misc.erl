@@ -1,5 +1,5 @@
 -module(lib_misc).
--export([sum/1, sum/2, for/3, qsort/1, pythag/1, perms/1, odds_and_evens/1, odds_and_evens_acc/1, sqrt/1]).
+-export([sum/1, sum/2, for/3, qsort/1, pythag/1, perms/1, odds_and_evens/1, odds_and_evens_acc/1, sqrt/1,on_exit/2]).
 
 sum(L) -> sum(L, 0).
 
@@ -46,3 +46,13 @@ sqrt(X) when X < 0 ->
   erlang:error({squareRootNegativeArgument, X});
 sqrt(X) ->
   sqrt(X).
+
+on_exit(Pid, Fun) ->
+  spawn(fun() ->
+  process_flag(trap_exit, true),
+  link(Pid),
+  receive
+    {'EXIT',Pid,Why} ->
+      Fun(Why)
+  end
+  end).
